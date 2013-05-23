@@ -58,6 +58,12 @@
 		<?php echo $form->fileField($model, 'image_url'); ?>
 		<?php echo $form->error($model,'image_url'); ?>
 	</div>
+    
+    <div class="row">
+		<?php echo $form->labelEx($model_ingredientes,'ingrediente'); ?>
+		<?php echo $form->textField($model_ingredientes,'id',array('size'=>60,'maxlength'=>255, 'name'=>'Ingrediente[]')); ?>
+		<?php echo $form->error($model_ingredientes,'ingrediente'); ?>
+	</div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>

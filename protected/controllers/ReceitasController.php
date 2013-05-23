@@ -63,23 +63,31 @@ class ReceitasController extends Controller
 	public function actionCreate()
 	{
 		$model=new Receitas;
-
+        $model_ingredientes=new Ingredientes;
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
 
+        
 		if(isset($_POST['Receitas']))
 		{
 			$logoURL = CUploadedFile::getInstance($model,'image_url');
-			$fileName = time() . '.' . $logoURL->extensionName;
-								
-			if ($logoURL !== null)
-				$model->image_url =  'upload/' . $fileName;
+            if($logoURL != null){
+                $fileName = time() . '.' . $logoURL->extensionName;
+                $model->image_url =  'upload/' . $fileName;
+            }
 				
 			$model->attributes=$_POST['Receitas'];
 			if($model->save()){
 				if ($logoURL !== null)
 					$logoURL->saveAs('upload/' . $fileName); 
 			
+                foreach ($_POST['Ingrediente'] as $ingrediente){
+                    $model_ingredientes=new Ingredientes;
+                    $model_ingredientes->ingrediente = $ingrediente;
+                    $model_ingredientes->id_receita = $model->id;
+                    $model_ingredientes->save(false);
+                }
+                
 				$this->redirect(array('admin'));
 				
 			}
@@ -87,6 +95,7 @@ class ReceitasController extends Controller
 
 		$this->render('create',array(
 			'model'=>$model,
+            'model_ingredientes'=>$model_ingredientes
 		));
 	}
 
@@ -98,6 +107,7 @@ class ReceitasController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
+        $model_ingredientes=  Ingredientes::model()->findAllByAttributes(array("id_receita" => $id));
 
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
@@ -129,6 +139,7 @@ class ReceitasController extends Controller
 
 		$this->render('update',array(
 			'model'=>$model,
+            'model_ingredientes'=>$model_ingredientes
 		));
 	}
 
