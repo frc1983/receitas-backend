@@ -83,13 +83,22 @@
     ));
     ?>
     <div class="ingredientes">
-        <?php foreach($model_ingredientes as $model_ingrediente): ?>
-        <div class="row">
-            <?php echo $form->labelEx($model_ingrediente,'ingrediente'); ?>
-            <?php echo $form->textField($model_ingrediente,'ingrediente',array('size'=>60,'maxlength'=>255, 'name'=>'Ingrediente[]')); ?>
-            <?php echo $form->error($model_ingrediente,'ingrediente'); ?>
-        </div>
-        <?php endforeach; ?>
+        <?php if(count($model_ingredientes = Ingredientes::model()->findAllByAttributes(array('id_receita' => $model->id))) > 0): ?>
+            <?php foreach($model_ingredientes as $model_ingrediente): ?>
+            <div class="row">
+                <?php echo $form->labelEx($model_ingrediente,'ingrediente'); ?>
+                <?php echo $form->textField($model_ingrediente,'ingrediente',array('size'=>60,'maxlength'=>255, 'name'=>'Ingrediente[]')); ?>
+                <?php echo $form->error($model_ingrediente,'ingrediente'); ?>
+            </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <div class="row">
+                <label for="Ingredientes_ingrediente" class="required">
+                    Ingrediente <span class="required">*</span>
+                </label>
+                <input size="60" maxlength="255" name="Ingrediente[]" id="Ingrediente" type="text">
+            </div>
+        <?php endif; ?>
     </div>
     <div class="row">
         <a href="javascript:;" onclick="addIngrediente();">Add Ingrediente</a>

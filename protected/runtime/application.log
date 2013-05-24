@@ -2129,3 +2129,21 @@ in C:\xampp\htdocs\receitas\index.php (13)
 2013/05/24 14:05:18 [warning] [application] Failed to set unsafe attribute "image_anterior" of "Receitas".
 in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (129)
 in C:\xampp\htdocs\receitas\index.php (13)
+2013/05/24 15:07:24 [warning] [application] Failed to set unsafe attribute "image_url" of "Receitas".
+in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (79)
+in C:\xampp\htdocs\receitas\index.php (13)
+2013/05/24 15:07:24 [warning] [application] Failed to set unsafe attribute "image_anterior" of "Receitas".
+in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (79)
+in C:\xampp\htdocs\receitas\index.php (13)
+2013/05/24 15:07:39 [warning] [application] Failed to set unsafe attribute "image_url" of "Receitas".
+in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (129)
+in C:\xampp\htdocs\receitas\index.php (13)
+2013/05/24 15:07:39 [warning] [application] Failed to set unsafe attribute "image_anterior" of "Receitas".
+in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (129)
+in C:\xampp\htdocs\receitas\index.php (13)
+2013/05/24 15:07:47 [warning] [application] Failed to set unsafe attribute "image_url" of "Receitas".
+in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (129)
+in C:\xampp\htdocs\receitas\index.php (13)
+2013/05/24 15:07:47 [warning] [application] Failed to set unsafe attribute "image_anterior" of "Receitas".
+in C:\xampp\htdocs\receitas\protected\controllers\ReceitasController.php (129)
+in C:\xampp\htdocs\receitas\index.php (13)
