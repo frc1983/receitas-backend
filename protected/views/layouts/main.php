@@ -33,7 +33,6 @@
 				array('label'=>'Home', 'url'=>array('/site/index')),
 				array('label'=>'Categorias', 'url'=>array('/categorias/index')),
 				array('label'=>'Receitas', 'url'=>array('/receitas/index')),
-				array('label'=>'Ingredientes', 'url'=>array('/ingredientes/index')),
 				array('label'=>'Login', 'url'=>array('/site/login'), 'visible'=>Yii::app()->user->isGuest),
 				array('label'=>'Logout ('.Yii::app()->user->name.')', 'url'=>array('/site/logout'), 'visible'=>!Yii::app()->user->isGuest)
 			),
