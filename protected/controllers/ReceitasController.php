@@ -36,7 +36,7 @@ class ReceitasController extends Controller
 				'users'=>array('@'),
 			),
 			array('allow', // allow admin user to perform 'admin' and 'delete' actions
-				'actions'=>array('admin','delete'),
+				'actions'=>array('admin','delete','AjaxDeleteImage'),
 				'users'=>array('admin'),
 			),
 			array('deny',  // deny all users
@@ -106,6 +106,7 @@ class ReceitasController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
+        $dir = getcwd().'/upload';
 		$model=$this->loadModel($id);
         $model_ingredientes=  Ingredientes::model()->findAllByAttributes(array("id_receita" => $id));
 
@@ -114,24 +115,32 @@ class ReceitasController extends Controller
 
 		if(isset($_POST['Receitas']))
 		{
-			$logoURL = CUploadedFile::getInstance($model,'image_url');
-			
+			$logoURL = CUploadedFile::getInstance($model,'image_url');			
 				
 			if ($logoURL !== null){
 				$fileName = time() . '.' . $logoURL->extensionName;
 				$model->image_url =  'upload/' . $fileName;
+                $prevFileName = $_POST['Receitas']['image_anterior'];
+                if(file_exists($prevFileName)){
+                    unlink($prevFileName);
+                }
 			}
 			
 			$model->attributes=$_POST['Receitas'];
 			if($model->save()){
 				if ($logoURL !== null){
-					$prevFileName = Receitas::model()->findByPk($model->id)->image_url;
-					
-					if(file_exists($prevFileName)){
-						unlink($prevFileName);
-					}
 					$logoURL->saveAs('upload/' . $fileName); 
 				}
+                
+                if(isset($_POST['Ingrediente'])){
+                    Ingredientes::model()->deleteAllByAttributes(array("id_receita" => $id));
+                    foreach ($_POST['Ingrediente'] as $ingrediente){
+                        $model_ingrediente=new Ingredientes;
+                        $model_ingrediente->ingrediente = $ingrediente;
+                        $model_ingrediente->id_receita = $model->id;
+                        $model_ingrediente->save(false);
+                    }
+                }
 					
 				$this->redirect(array('admin'));
 			}
@@ -150,7 +159,12 @@ class ReceitasController extends Controller
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		$model = $this->loadModel($id);
+        $prevFileName = $model->image_url;
+        if(file_exists($prevFileName)){
+            unlink($prevFileName);
+        }
+        $model->delete();
 
 		// if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
 		if(!isset($_GET['ajax']))
@@ -210,4 +224,16 @@ class ReceitasController extends Controller
 			Yii::app()->end();
 		}
 	}
+    
+    public function actionAjaxDeleteImage($id, $image)
+    {
+        if(is_file($image))
+        {
+            Receitas::model()->updateByPk($id, array('image_url'=>''));
+            unlink($image);
+        }
+        echo "";
+        Yii::app()->end();
+    }
+
 }

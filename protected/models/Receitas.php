@@ -48,7 +48,7 @@ class Receitas extends CActiveRecord
 		return array(
 			array('id_categoria, nome, rendimento, calorias, tempo_preparo, modo_preparo', 'required'),
 			array('id_categoria', 'numerical', 'integerOnly'=>true),
-			array('image_url', 'file', 'types'=>'jpg, gif, png'),
+			array('image_url', 'file', 'types'=>'jpg, gif, png', 'allowEmpty'=>true,'on'=>'update'),
 			array('nome, rendimento, calorias, tempo_preparo', 'length', 'max'=>255),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.

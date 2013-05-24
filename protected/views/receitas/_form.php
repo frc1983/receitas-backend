@@ -54,16 +54,46 @@
 	</div>
 
 	<div class="row">
-		<?php echo $form->labelEx($model,'image_url'); ?>
-		<?php echo $form->fileField($model, 'image_url'); ?>
-		<?php echo $form->error($model,'image_url'); ?>
+		<?php echo CHtml::activeFileField($model, 'image_url'); ?>
 	</div>
     
+    <div id="image" class="row">
+    <?php
+    if(is_file(Yii::getPathOfAlias('webroot')."/".$model->image_url)){
+            echo CHtml::image("../../../".$model->image_url, "image_url", array("width"=>350));
+            ?>
+            <br />
+            <br />
+            <?php echo CHtml::ajaxLink('Apagar Imagem',array('ajaxDeleteImage'),
+            array(
+                    'update'=>'#image',
+                    'data' => array(
+                            'id' => $model->id,
+                            'image' => $model->image_url,
+            )),
+            array('confirm'=>'Tem certeza?'));
+            ?>
+            <?php
+    }
+    ?>
+    </div>
+            
+    <?php echo $form->hiddenField($model, 'image_url', array(
+            'name' => 'Receitas[image_anterior]',
+    ));
+    ?>
+    <div class="ingredientes">
+        <?php foreach($model_ingredientes as $model_ingrediente): ?>
+        <div class="row">
+            <?php echo $form->labelEx($model_ingrediente,'ingrediente'); ?>
+            <?php echo $form->textField($model_ingrediente,'ingrediente',array('size'=>60,'maxlength'=>255, 'name'=>'Ingrediente[]')); ?>
+            <?php echo $form->error($model_ingrediente,'ingrediente'); ?>
+        </div>
+        <?php endforeach; ?>
+    </div>
     <div class="row">
-		<?php echo $form->labelEx($model_ingredientes,'ingrediente'); ?>
-		<?php echo $form->textField($model_ingredientes,'id',array('size'=>60,'maxlength'=>255, 'name'=>'Ingrediente[]')); ?>
-		<?php echo $form->error($model_ingredientes,'ingrediente'); ?>
-	</div>
+        <a href="javascript:;" onclick="addIngrediente();">Add Ingrediente</a>
+    </div>
 
 	<div class="row buttons">
 		<?php echo CHtml::submitButton($model->isNewRecord ? 'Create' : 'Save'); ?>
@@ -72,3 +102,16 @@
 <?php $this->endWidget(); ?>
 
 </div><!-- form -->
+
+<script>
+    function addIngrediente(){
+        $('.ingredientes').append(
+            '<div class="row">' +
+                '<label for="Ingredientes_ingrediente" class="required">' +
+                    'Ingrediente <span class="required">*</span>' +
+                '</label>' +
+                '<input size="60" maxlength="255" name="Ingrediente[]" id="Ingrediente" type="text">' +
+            '</div>'
+        );
+    }
+</script>
